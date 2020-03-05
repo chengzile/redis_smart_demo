@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper .//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.UserInfoMapper">
+    <resultMap id="userInfo" type="entity.UserInfo">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+    </resultMap>
+    <select id="getUserInfo" parameterType="int"
+            resultMap="userInfo">
+        select * from user_info where id=#{id}
+    </select>
+    <insert id="insertUserInfo" useGeneratedKeys="true">
+        insert into user_info(id,user_name) values(#{id},#{userName})
+
+    </insert>
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO user_info
+        (id, user_name)
+        VALUES
+        <foreach collection ="list" item="item" index= "index" separator =",">
+            (
+            #{item.id},
+            #{item.userName}
+            )
+        </foreach >
+    </insert>
+    <update id="updateUserInfo" >
+        update user_info set user_name=#{userName} where id=#{id}
+    </update>
+</mapper>
